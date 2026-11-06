@@ -1,0 +1,29 @@
+
+name: Compile and Test Under Unity
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout your code
+        uses: actions/checkout@v7
+        with:
+          path: main
+
+      - name: Checkout Unity
+        uses: actions/checkout@v7
+        with:
+          repository: ThrowTheSwitch/Unity
+          path: unity
+
+      - name: Compile tests
+        run: gcc -I unity/src/ main/test.c unity/src/unity.c -o tests
+
+      - name: Run tests
+        run: ./tests
